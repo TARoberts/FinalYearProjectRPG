@@ -17,7 +17,7 @@ public class InputSytem : MonoBehaviour
     private Vector3 playerVelocity;
 
     private DogKnightControls dogKnightControls;
-    private CharacterController dogController;
+    public CharacterController dogController;
 
     private void Awake()
     {
@@ -62,12 +62,15 @@ public class InputSytem : MonoBehaviour
 
         move = Quaternion.AngleAxis(playerCameraPosition.rotation.eulerAngles.y, Vector3.up) * move;
 
-        // dogController.transform.Rotate(new Vector3(Time.deltaTime * 15f, 0f, 0f), Space.World);
-
         dogController.Move(move * Time.deltaTime * localSpeed);
 
-        Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
-        dogController.transform.rotation = Quaternion.RotateTowards(dogController.transform.rotation, toRotation, 0.1f * Time.deltaTime);
+        if (move.magnitude > 0)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
+            dogController.transform.forward = move;
+        }
+
+
         
 
         playerVelocity.y += gravityValue * Time.deltaTime;
