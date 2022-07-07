@@ -62,6 +62,15 @@ public partial class @DogKnightControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Defend"",
+                    ""type"": ""Button"",
+                    ""id"": ""88430891-f4d2-4015-82bd-1b8c7009dc64"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -196,6 +205,28 @@ public partial class @DogKnightControls : IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a0d28a3-7603-4801-b9f7-4d0bbf170106"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse"",
+                    ""action"": ""Defend"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1a36e440-1f42-4109-8d8c-0636957b51e0"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Defend"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -231,6 +262,7 @@ public partial class @DogKnightControls : IInputActionCollection2, IDisposable
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_Defend = m_Player.FindAction("Defend", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -294,6 +326,7 @@ public partial class @DogKnightControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_Defend;
     public struct PlayerActions
     {
         private @DogKnightControls m_Wrapper;
@@ -302,6 +335,7 @@ public partial class @DogKnightControls : IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @Defend => m_Wrapper.m_Player_Defend;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -323,6 +357,9 @@ public partial class @DogKnightControls : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Defend.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDefend;
+                @Defend.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDefend;
+                @Defend.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDefend;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -339,6 +376,9 @@ public partial class @DogKnightControls : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @Defend.started += instance.OnDefend;
+                @Defend.performed += instance.OnDefend;
+                @Defend.canceled += instance.OnDefend;
             }
         }
     }
@@ -367,5 +407,6 @@ public partial class @DogKnightControls : IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnDefend(InputAction.CallbackContext context);
     }
 }

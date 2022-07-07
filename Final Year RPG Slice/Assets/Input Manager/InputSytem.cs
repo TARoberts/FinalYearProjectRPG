@@ -20,6 +20,8 @@ public class InputSytem : MonoBehaviour
     public CharacterController dogController;
     private Animator dogAnimator;
 
+    private float attackTimer = 0;
+
     private void Awake()
     {
         
@@ -32,6 +34,10 @@ public class InputSytem : MonoBehaviour
 
         dogKnightControls.Player.Attack.Enable();
         dogKnightControls.Player.Attack.performed += Attack;
+
+        dogKnightControls.Player.Defend.Enable();
+        dogKnightControls.Player.Defend.performed += Defend;
+        dogKnightControls.Player.Defend.canceled += Defend_cancelled;
 
         dogKnightControls.Player.Movement.Enable();
         
@@ -79,7 +85,11 @@ public class InputSytem : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
         dogController.Move(playerVelocity * Time.deltaTime);
 
-        if (!attackLocked)
+        if (attackTimer > 0f)
+        {
+            attackTimer -= Time.deltaTime;
+        }
+        if (attackTimer <= 0f)
         {
             dogAnimator.SetInteger("AttackState", 0);
         }
@@ -102,24 +112,31 @@ public class InputSytem : MonoBehaviour
 
     public void Attack(InputAction.CallbackContext context)
     {
-        
-        if (!attackLocked && ((dogAnimator.GetInteger("AttackState") == 0) || (dogAnimator.GetInteger("AttackState") == 2)))
+        attackTimer = .8f;
+        if (((dogAnimator.GetInteger("AttackState") == 0)) || (attackLocked && (dogAnimator.GetInteger("AttackState") == 2)))
         {
             attackLocked = true;
             Debug.Log("Attackingway");
             dogAnimator.SetInteger("AttackState", 1);
         }
-        else if (attackLocked && dogAnimator.GetInteger("AttackState") == 1)
+        else if (dogAnimator.GetInteger("AttackState") == 1)
         {
             Debug.Log("Attackingway");
             dogAnimator.SetInteger("AttackState", 2);
         }
-        if (attackLocked)
-        {
-            StartCoroutine(AttackLock());
-        }
-        
     }
+
+    public void Defend(InputAction.CallbackContext context)
+    {
+        dogAnimator.SetBool("Defending", true);
+    }
+
+    public void Defend_cancelled(InputAction.CallbackContext context)
+    {
+        dogAnimator.SetBool("Defending", false);
+    }
+
+
 
     IEnumerator AttackLock()
     {
