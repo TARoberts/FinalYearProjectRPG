@@ -18,11 +18,13 @@ public class InputSytem : MonoBehaviour
 
     private DogKnightControls dogKnightControls;
     public CharacterController dogController;
+    private Animator dogAnimator;
 
     private void Awake()
     {
         
         dogController = GetComponent<CharacterController>();
+        dogAnimator = GetComponent<Animator>();
 
         dogKnightControls = new DogKnightControls();
         dogKnightControls.Player.Jump.Enable();
@@ -58,23 +60,29 @@ public class InputSytem : MonoBehaviour
 
         Vector3 move = (new Vector3(inputVector.x, 0, inputVector.y));
 
-        move.Normalize();
+
+        float mag = move.magnitude;
+        //move.Normalize();
 
         move = Quaternion.AngleAxis(playerCameraPosition.rotation.eulerAngles.y, Vector3.up) * move;
 
         dogController.Move(move * Time.deltaTime * localSpeed);
+
+        dogAnimator.SetFloat("Movement", mag);
 
         if (move.magnitude > 0)
         {
             Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
             dogController.transform.forward = move;
         }
-
-
-        
-
+     
         playerVelocity.y += gravityValue * Time.deltaTime;
         dogController.Move(playerVelocity * Time.deltaTime);
+
+        if (!attackLocked)
+        {
+            dogAnimator.SetInteger("AttackState", 0);
+        }
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -94,18 +102,30 @@ public class InputSytem : MonoBehaviour
 
     public void Attack(InputAction.CallbackContext context)
     {
+        
+        if (!attackLocked && ((dogAnimator.GetInteger("AttackState") == 0) || (dogAnimator.GetInteger("AttackState") == 2)))
+        {
             attackLocked = true;
-            if (!attackLocked)
-            {
-                Debug.Log("Attackingway");
-                StartCoroutine(AttackLock());
-            }
+            Debug.Log("Attackingway");
+            dogAnimator.SetInteger("AttackState", 1);
+        }
+        else if (attackLocked && dogAnimator.GetInteger("AttackState") == 1)
+        {
+            Debug.Log("Attackingway");
+            dogAnimator.SetInteger("AttackState", 2);
+        }
+        if (attackLocked)
+        {
+            StartCoroutine(AttackLock());
+        }
+        
     }
 
     IEnumerator AttackLock()
     {
         yield return new WaitForSeconds(1.0f);
         attackLocked = false;
+        dogAnimator.SetInteger("AttackState", 0);
     }
 }
 
