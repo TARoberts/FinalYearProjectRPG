@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class InputSytem : MonoBehaviour
 {
     public float jumpHeight, moveSpeed;
-    public bool inEditor;
+    public bool inEditor, inMenu;
 
     private bool onFloor, attackLocked;
 
@@ -50,6 +50,16 @@ public class InputSytem : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        if (inMenu && dogKnightControls.Player.enabled)
+        {
+            dogKnightControls.Player.Disable();
+        }
+        else
+        {
+            dogKnightControls.Player.Enable();
+        }
+
         float localSpeed = moveSpeed;
         onFloor = Physics.CheckSphere(checkSource.position, floorDistance, groundMask);
         if (!onFloor)
@@ -113,13 +123,13 @@ public class InputSytem : MonoBehaviour
     public void Attack(InputAction.CallbackContext context)
     {
         attackTimer = .8f;
-        if (((dogAnimator.GetInteger("AttackState") == 0)) || (attackLocked && (dogAnimator.GetInteger("AttackState") == 2)))
+        if ((((dogAnimator.GetInteger("AttackState") == 0)) || (attackLocked && (dogAnimator.GetInteger("AttackState") == 2))) && !inMenu)
         {
             attackLocked = true;
             Debug.Log("Attackingway");
             dogAnimator.SetInteger("AttackState", 1);
         }
-        else if (dogAnimator.GetInteger("AttackState") == 1)
+        else if (dogAnimator.GetInteger("AttackState") == 1 && !inMenu)
         {
             Debug.Log("Attackingway");
             dogAnimator.SetInteger("AttackState", 2);

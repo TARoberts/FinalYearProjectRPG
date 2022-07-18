@@ -3313,6 +3313,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: DogKnightCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 5573273033781195640, guid: 3bea193d5653c6246b4db84583bb6dab,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5573273033781195641, guid: 3bea193d5653c6246b4db84583bb6dab,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5573273033781358360, guid: 3bea193d5653c6246b4db84583bb6dab,
         type: 3}
       propertyPath: m_RootOrder
@@ -3370,13 +3380,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5906234631790549534, guid: 3bea193d5653c6246b4db84583bb6dab,
         type: 3}
+      propertyPath: inMenu
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5906234631790549534, guid: 3bea193d5653c6246b4db84583bb6dab,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5906234631790549534, guid: 3bea193d5653c6246b4db84583bb6dab,
+        type: 3}
       propertyPath: playerCameraPosition
       value: 
       objectReference: {fileID: 330585546}
     - target: {fileID: 5906234631790549535, guid: 3bea193d5653c6246b4db84583bb6dab,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3bea193d5653c6246b4db84583bb6dab, type: 3}
