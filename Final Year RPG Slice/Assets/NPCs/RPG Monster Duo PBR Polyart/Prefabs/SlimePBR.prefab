@@ -264,6 +264,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4127066169186206}
   - component: {fileID: 137702289541837672}
+  - component: {fileID: 8728368433031222989}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
@@ -349,6 +350,20 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.3588662, y: 0.1749603, z: 0.000000059604645}
     m_Extent: {x: 0.62954795, y: 0.6683546, z: 0.4895594}
   m_DirtyAABB: 0
+--- !u!64 &8728368433031222989
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1665332316372866}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 438236b1bb4dc03468cb3f2d12fa922c, type: 3}
 --- !u!1 &1704581108590040
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,6 +408,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4023215848608658}
   - component: {fileID: 95161444847813696}
+  - component: {fileID: 4672779357975495797}
+  - component: {fileID: 6256330502543472957}
   m_Layer: 0
   m_Name: SlimePBR
   m_TagString: Untagged
@@ -430,13 +447,46 @@ Animator:
   m_Controller: {fileID: 9100000, guid: fb53b4d3a4f06844c90da7297e9082de, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4672779357975495797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919012471076396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40db092a734231c488ba66314e397b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AIState: 0
+  distance: 0
+  body: {fileID: 0}
+  speed: 2
+  range: 1.5
+--- !u!54 &6256330502543472957
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919012471076396}
+  serializedVersion: 2
+  m_Mass: 0.1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 96
+  m_CollisionDetection: 0
 --- !u!1 &1989916952965676
 GameObject:
   m_ObjectHideFlags: 0
