@@ -11,7 +11,7 @@ public class AIScript : MonoBehaviour
     public float distance;
 
     private GameObject _player;
-    private int _playerHP = 5;
+    private int _playerHP = 200;
     private bool _invunerablePlayer = false;
     //[SerializeField] player_combat combat;
     [SerializeField] Rigidbody body;
@@ -28,6 +28,8 @@ public class AIScript : MonoBehaviour
     private bool _animationLocked = false;
 
     public float specialTimer1 = 20, specialTimer2 = 30;
+
+    [SerializeField] private PlayFire _specialAttackScript;
 
     private void Start()
     {
@@ -80,37 +82,41 @@ public class AIScript : MonoBehaviour
     void Update()
     {
         distance = Vector3.Distance(_player.transform.position, this.transform.position);
-        if (_playerHP <= 0 || _animationLocked)
+        if (_playerHP <= 0)
         {
             distance = 2000;
         }
 
-        if (distance > detectRange)
+        if (!_animationLocked)
         {
-            AIState = state.idle;
-            animator.SetBool("Idle", false);
-            animator.SetBool("Moving", false);
-            
-        }
+            if (distance > detectRange)
+            {
+                AIState = state.idle;
+                animator.SetBool("Idle", false);
+                animator.SetBool("Moving", false);
 
-        else if (distance > chaseRange && distance <= detectRange)
-        {
-            AIState = state.look;
-            animator.SetBool("Moving", false);
-            animator.SetBool("Idle", true);
-        }
+            }
 
-        else if (distance > range && distance <= chaseRange)
-        {
-            AIState = state.chase;
-            animator.SetBool("Moving", true);
-        }
+            else if (distance > chaseRange && distance <= detectRange)
+            {
+                AIState = state.look;
+                animator.SetBool("Moving", false);
+                animator.SetBool("Idle", true);
+            }
 
-        else if (distance <= range)
-        {
-            AIState = state.attack;
-            animator.SetBool("Moving", false);
+            else if (distance > range && distance <= chaseRange)
+            {
+                AIState = state.chase;
+                animator.SetBool("Moving", true);
+            }
+
+            else if (distance <= range)
+            {
+                AIState = state.attack;
+                animator.SetBool("Moving", false);
+            }
         }
+        
 
         if (AIState == state.idle)
         {
@@ -170,7 +176,7 @@ public class AIScript : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 0.1f);
 
-            if (transform.rotation == rotation)
+            if (transform.rotation == rotation && !_animationLocked)
             {
                 if (_canAttack && _playerHP > 0)
                 {
@@ -257,8 +263,7 @@ public class AIScript : MonoBehaviour
         {
             //do special attack flurry
             specialTimer1 = 20f;
-            _canAttack = true;
-            _animationLocked = false;
+            StartCoroutine(MonsterSpecialAttackChain());
         }
         else
         {
@@ -289,7 +294,21 @@ public class AIScript : MonoBehaviour
 
     IEnumerator MonsterSpecialAttackChain()
     {
-        yield return null;
+        animator.SetBool("Attack1", true);
+        
+        yield return new WaitForSeconds(2f);
+        animator.SetBool("Attack2", true);
+        animator.SetBool("Attack1", false);
+        yield return new WaitForSeconds(2f);
+        animator.SetBool("Attack1", true);
+        animator.SetBool("Attack2", false);
+        yield return new WaitForSeconds(2f);
+        animator.SetBool("Attack2", true);
+        animator.SetBool("Attack1", false);
+        yield return new WaitForSeconds(2f);
+        animator.SetBool("Attack2", false);
+        _canAttack = true;
+        _animationLocked = false;
     }
 
     void BossAttacks()
@@ -299,9 +318,18 @@ public class AIScript : MonoBehaviour
         if (specialTimer1 <= 0)
         {
             specialTimer1 = 20f;
-            //do special attack flurry
-            _canAttack = true;
-            _animationLocked = false;
+            StartCoroutine(BossSpecialAttackChain());
+
+        }
+
+        else if (specialTimer2 <= 0)
+        {
+            if (specialTimer1 < 5)
+            {
+                specialTimer1 = 5f;
+            }
+            StartCoroutine(BossSpecialAttackFlame());
+
         }
         else
         {
@@ -329,11 +357,30 @@ public class AIScript : MonoBehaviour
 
     IEnumerator BossSpecialAttackChain()
     {
-        yield return null;
+        animator.SetBool("Attack2", true);
+        animator.SetBool("Attack1", false);
+        Vector3 toOther = _player.transform.position - transform.position;
+        if (_invunerablePlayer == false)
+        {
+            //body.AddForce(toOther.normalized * -2.0f, ForceMode.Impulse);
+            _playerHP = _playerHP - 3;
+        }
+        yield return new WaitForSeconds(0.25f);
+        animator.SetBool("Attack2", false);
+
+        yield return new WaitForSeconds(2.0f);
+
+        _animationLocked = false;
+        _canAttack = true;
     }
 
     IEnumerator BossSpecialAttackFlame()
     {
-        yield return null;
+        animator.SetBool("FlameAttack", true);
+        _specialAttackScript.enabled = true;
+        yield return new WaitForSeconds(2f);
+        _specialAttackScript.enabled = false;
+        _canAttack = true;
+        _animationLocked = false;
     }
 }
