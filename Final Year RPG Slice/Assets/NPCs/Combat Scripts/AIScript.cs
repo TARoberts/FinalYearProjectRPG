@@ -16,6 +16,8 @@ public class AIScript : MonoBehaviour
     //[SerializeField] player_combat combat;
     [SerializeField] Rigidbody body;
     private Animator animator;
+    [SerializeField] private GameObject _wing1Collider, _wing2Collider;
+    [SerializeField] private GameObject _JawCollider;
 
     public float detectRange, chaseRange;
     
@@ -328,6 +330,7 @@ public class AIScript : MonoBehaviour
             {
                 specialTimer1 = 5f;
             }
+            specialTimer2 = 30f;
             StartCoroutine(BossSpecialAttackFlame());
 
         }
@@ -340,17 +343,13 @@ public class AIScript : MonoBehaviour
 
     IEnumerator BossNormalAttack()
     {
-        Vector3 toOther = _player.transform.position - transform.position;
-        if (_invunerablePlayer == false)
-        {
-            //body.AddForce(toOther.normalized * -2.0f, ForceMode.Impulse);
-            _playerHP = _playerHP - 3;
-        }
+
+        _JawCollider.SetActive(true);
         yield return new WaitForSeconds(0.25f);
         animator.SetBool("Attack1", false);
-
+        
         yield return new WaitForSeconds(2.0f);
-
+        _JawCollider.SetActive(false);
         _animationLocked = false;
         _canAttack = true;
     }
@@ -359,16 +358,15 @@ public class AIScript : MonoBehaviour
     {
         animator.SetBool("Attack2", true);
         animator.SetBool("Attack1", false);
-        Vector3 toOther = _player.transform.position - transform.position;
-        if (_invunerablePlayer == false)
-        {
-            //body.AddForce(toOther.normalized * -2.0f, ForceMode.Impulse);
-            _playerHP = _playerHP - 3;
-        }
+        _wing1Collider.SetActive(true);
+        _wing2Collider.SetActive(true);
         yield return new WaitForSeconds(0.25f);
+
         animator.SetBool("Attack2", false);
 
         yield return new WaitForSeconds(2.0f);
+        _wing1Collider.SetActive(false);
+        _wing2Collider.SetActive(false);
 
         _animationLocked = false;
         _canAttack = true;
@@ -379,6 +377,7 @@ public class AIScript : MonoBehaviour
         animator.SetBool("FlameAttack", true);
         _specialAttackScript.enabled = true;
         yield return new WaitForSeconds(2f);
+        animator.SetBool("FlameAttack", false);
         _specialAttackScript.enabled = false;
         _canAttack = true;
         _animationLocked = false;
