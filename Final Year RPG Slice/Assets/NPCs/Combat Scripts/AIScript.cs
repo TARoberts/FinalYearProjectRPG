@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AIScript : MonoBehaviour
 {
-    public enum state { idle, look, chase, attack};
+    public enum state { idle, look, chase, attack, dead};
     public enum type { minion, monster, boss, other};
     public state AIState = state.idle;
     public type monsterType = type.minion;
@@ -31,6 +31,8 @@ public class AIScript : MonoBehaviour
 
     public float specialTimer1 = 20, specialTimer2 = 30;
 
+    public int monsterHP;
+
     [SerializeField] private PlayFire _specialAttackScript;
 
     private void Start()
@@ -42,7 +44,7 @@ public class AIScript : MonoBehaviour
         Vector3 toOther = _player.transform.position - transform.position;
         
 
-        if (detectRange == 0 || chaseRange == 0 || specialTimer1 == 0 || specialTimer2 == 0)
+        if (detectRange == 0 || chaseRange == 0 || specialTimer1 == 0 || specialTimer2 == 0 || monsterHP == 0)
         {
             switch (monsterType)
             {
@@ -51,6 +53,7 @@ public class AIScript : MonoBehaviour
                     chaseRange = 15f;
                     specialTimer1 = 0f;
                     specialTimer2 = 0f;
+                    monsterHP = 10;
                     Debug.Log("Undeclared variables, using Minion Defaults");
                     break;
 
@@ -59,6 +62,7 @@ public class AIScript : MonoBehaviour
                     chaseRange = 10f;
                     specialTimer1 = 20f;
                     specialTimer2 = 0f;
+                    monsterHP = 30;
                     Debug.Log("Undeclared variables, using Monster Defaults");
                     break;
 
@@ -67,6 +71,7 @@ public class AIScript : MonoBehaviour
                     chaseRange = 18f;
                     specialTimer1 = 20f;
                     specialTimer2 = 30f;
+                    monsterHP = 50;
                     Debug.Log("Undeclared variables, using Boss Defaults");
                     break;
 
@@ -83,11 +88,21 @@ public class AIScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _playerHP = _player.GetComponent<PlayerStats>().playerHealthValue;
+
+        if (monsterHP <= 0)
+        {
+            _animationLocked = true;
+            AIState = state.dead;
+        }
+
         distance = Vector3.Distance(_player.transform.position, this.transform.position);
         if (_playerHP <= 0)
         {
             distance = 2000;
         }
+
+
 
         if (!_animationLocked)
         {
@@ -118,92 +133,165 @@ public class AIScript : MonoBehaviour
                 animator.SetBool("Moving", false);
             }
         }
+
         
-
-        if (AIState == state.idle)
-        {
-            //if (patrolling)
+        #region OldStateMachine
+            //if (AIState == state.idle)
             //{
-            //    patrolling = false;
-            //    StartCoroutine(patrol());
-            //} 
-            animator.SetBool("Moving", false);
-            animator.SetFloat("Speed", 0);
-        }
+            //    //if (patrolling)
+            //    //{
+            //    //    patrolling = false;
+            //    //    StartCoroutine(patrol());
+            //    //} 
+            //    animator.SetBool("Moving", false);
+            //    animator.SetFloat("Speed", 0);
+            //}
 
-        else if (AIState == state.look)
+            //else if (AIState == state.look)
+            //{
+            //    Vector3 relativePos = _player.transform.position - transform.position;
+
+            //    relativePos.y = 0;
+            //    // the second argument, upwards, defaults to Vector3.up
+            //    Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
+            //    transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 0.1f);
+            //    animator.SetFloat("Speed", 0);
+            //}
+
+            //else if (AIState == state.chase)
+            //{
+            //    float step = speed * Time.deltaTime;
+            //    Vector3 relativePos = _player.transform.position - transform.position;
+
+            //    relativePos.y = 0;
+            //    // the second argument, upwards, defaults to Vector3.up
+            //    Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
+            //    transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 0.1f);
+
+            //    if (transform.rotation == rotation)
+            //    {
+            //        Vector3 newPos = Vector3.MoveTowards(transform.position, _player.transform.position, step);
+
+            //        newPos.y = transform.position.y;
+
+            //        transform.position = newPos;
+            //        animator.SetFloat("Speed", speed);
+            //    }         
+            //}
+
+            //else if (AIState == state.attack)
+            //{
+
+            //    animator.SetBool("Moving", false);
+            //    animator.SetFloat("Speed", 0);
+
+
+            //    float step = speed * Time.deltaTime;
+            //    Vector3 relativePos = _player.transform.position - transform.position;
+
+            //    relativePos.y = 0;
+            //    // the second argument, upwards, defaults to Vector3.up
+            //    Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
+            //    transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 0.1f);
+
+            //    if (transform.rotation == rotation && !_animationLocked)
+            //    {
+            //        if (_canAttack && _playerHP > 0)
+            //        {
+            //            if (monsterType == type.minion)
+            //            {
+            //                _canAttack = false;
+            //                animator.SetBool("Attack", true);
+            //                StartCoroutine(MinionAttack());
+            //            }
+
+            //            else if (monsterType == type.monster)
+            //            {
+            //                MonsterAttacks();
+            //            }
+
+            //            else if (monsterType == type.boss)
+            //            {
+            //                BossAttacks();
+            //            }
+            //        }
+            //    }
+
+            //}
+            #endregion
+        
+        Vector3 relativePos = _player.transform.position - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
+        float step = speed * Time.deltaTime;
+
+        switch (AIState)
         {
-            Vector3 relativePos = _player.transform.position - transform.position;
+            case state.idle:
+                animator.SetBool("Moving", false);
+                animator.SetFloat("Speed", 0);
+                break;
 
-            relativePos.y = 0;
-            // the second argument, upwards, defaults to Vector3.up
-            Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 0.1f);
-            animator.SetFloat("Speed", 0);
-        }
+            case state.look:
+                relativePos.y = 0;
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 0.1f);
+                animator.SetFloat("Speed", 0);
+                break;
 
-        else if (AIState == state.chase)
-        {
-            float step = speed * Time.deltaTime;
-            Vector3 relativePos = _player.transform.position - transform.position;
-
-            relativePos.y = 0;
-            // the second argument, upwards, defaults to Vector3.up
-            Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 0.1f);
-
-            if (transform.rotation == rotation)
-            {
-                Vector3 newPos = Vector3.MoveTowards(transform.position, _player.transform.position, step);
-
-                newPos.y = transform.position.y;
-
-                transform.position = newPos;
-                animator.SetFloat("Speed", speed);
-            }         
-        }
-
-        else if (AIState == state.attack)
-        {
-
-            animator.SetBool("Moving", false);
-            animator.SetFloat("Speed", 0);
-            
-
-            float step = speed * Time.deltaTime;
-            Vector3 relativePos = _player.transform.position - transform.position;
-
-            relativePos.y = 0;
-            // the second argument, upwards, defaults to Vector3.up
-            Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 0.1f);
-
-            if (transform.rotation == rotation && !_animationLocked)
-            {
-                if (_canAttack && _playerHP > 0)
+            case state.chase:
+                relativePos.y = 0;
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 0.1f);
+                if (transform.rotation == rotation)
                 {
-                    if (monsterType == type.minion)
-                    {
-                        _canAttack = false;
-                        animator.SetBool("Attack", true);
-                        StartCoroutine(MinionAttack());
-                    }
+                    Vector3 newPos = Vector3.MoveTowards(transform.position, _player.transform.position, step);
 
-                    else if (monsterType == type.monster)
-                    {
-                        MonsterAttacks();
-                    }
+                    newPos.y = transform.position.y;
 
-                    else if (monsterType == type.boss)
+                    transform.position = newPos;
+                    animator.SetFloat("Speed", speed);
+                }
+                break;
+
+            case state.attack:
+
+                animator.SetBool("Moving", false);
+                animator.SetFloat("Speed", 0);
+                relativePos.y = 0;
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 0.1f);
+
+                if (transform.rotation == rotation && !_animationLocked)
+                {
+                    if (_canAttack && _playerHP > 0)
                     {
-                        BossAttacks();
+                        if (monsterType == type.minion)
+                        {
+                            _canAttack = false;
+                            animator.SetBool("Attack", true);
+                            StartCoroutine(MinionAttack());
+                        }
+
+                        else if (monsterType == type.monster)
+                        {
+                            MonsterAttacks();
+                        }
+
+                        else if (monsterType == type.boss)
+                        {
+                            BossAttacks();
+                        }
                     }
                 }
-            }
+                break;
+
+            case state.dead:
+
+                animator.SetBool("Dead", true);
+                animator.SetBool("Moving", false);
+                animator.SetFloat("Speed", 0f);
+                break;
 
         }
 
-        if (AIState != state.idle)
+        if (AIState != state.idle && AIState != state.dead)
         {
             if (monsterType == type.monster && specialTimer1 > 0)
             {

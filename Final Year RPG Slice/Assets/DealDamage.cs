@@ -18,7 +18,7 @@ public class DealDamage : MonoBehaviour
 
         if (_manager == null)
         {
-            _manager = GameObject.FindGameObjectWithTag("Manager");
+            _manager = GameObject.FindGameObjectWithTag("Difficulty_Manager");
         }
 
         _self = _manager.GetComponent<Difficulty_Manager>();
@@ -31,7 +31,7 @@ public class DealDamage : MonoBehaviour
         {
             if(_playerStats.playerHealthValue > 0)
             {
-                float damage = 5 * _self.attackDamageModifier / _self.incomingDamageModifer;
+                float damage = 5 * _self.attackDamageModifier;
                 int roundDamage = (int)damage;
                 _playerStats.playerHealthValue -= roundDamage;
                 Debug.Log(roundDamage);

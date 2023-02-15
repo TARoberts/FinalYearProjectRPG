@@ -20,6 +20,8 @@ public class InputSytem : MonoBehaviour
     public CharacterController dogController;
     private Animator dogAnimator;
 
+    [SerializeField] private GameObject _attackCollider;
+
     private float attackTimer = 0;
 
     private void Awake()
@@ -27,7 +29,14 @@ public class InputSytem : MonoBehaviour
         
         dogController = GetComponent<CharacterController>();
         dogAnimator = GetComponent<Animator>();
-
+        if (_attackCollider == null)
+        {
+            Debug.Log("No colldier for attacks, attack wont work");
+        }
+        else
+        {
+            _attackCollider.SetActive(false);
+        }
         dogKnightControls = new DogKnightControls();
         dogKnightControls.Player.Jump.Enable();
         dogKnightControls.Player.Jump.performed += Jump;
@@ -58,6 +67,15 @@ public class InputSytem : MonoBehaviour
         else
         {
             dogKnightControls.Player.Enable();
+        }
+
+        if ((dogAnimator.GetInteger("AttackState") != 0))
+        {
+            _attackCollider.SetActive(true);
+        }
+        else
+        {
+            _attackCollider.SetActive(false);
         }
 
         float localSpeed = moveSpeed;
@@ -153,6 +171,7 @@ public class InputSytem : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         attackLocked = false;
         dogAnimator.SetInteger("AttackState", 0);
+        _attackCollider.SetActive(false);
     }
 }
 

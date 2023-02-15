@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 490316}
   m_Layer: 0
   m_Name: Spine1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 8539707981475626226}
   m_Layer: 0
   m_Name: Red
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -162,6 +162,7 @@ MonoBehaviour:
   range: 5
   specialTimer1: 5
   specialTimer2: 10
+  monsterHP: 50
   _specialAttackScript: {fileID: 8539707981475626226}
 --- !u!114 &8539707981475626226
 MonoBehaviour:
@@ -189,7 +190,7 @@ GameObject:
   - component: {fileID: 497604}
   m_Layer: 0
   m_Name: Wing3_L 1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -223,7 +224,7 @@ GameObject:
   - component: {fileID: 459036}
   m_Layer: 0
   m_Name: Wing1_L1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -380,7 +381,7 @@ GameObject:
   - component: {fileID: 435916}
   m_Layer: 0
   m_Name: WingClaw3_L
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -412,7 +413,7 @@ GameObject:
   - component: {fileID: 468956}
   m_Layer: 0
   m_Name: Wing4_L
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -510,7 +511,7 @@ GameObject:
   - component: {fileID: 403260}
   m_Layer: 0
   m_Name: Jaw1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -669,7 +670,7 @@ GameObject:
   - component: {fileID: 491190}
   m_Layer: 0
   m_Name: Neck1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -763,7 +764,7 @@ GameObject:
   - component: {fileID: 437436}
   m_Layer: 0
   m_Name: Neck2
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -828,7 +829,7 @@ GameObject:
   - component: {fileID: 401494}
   m_Layer: 0
   m_Name: WingClaw2_L 1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -922,7 +923,7 @@ GameObject:
   - component: {fileID: 429920}
   m_Layer: 0
   m_Name: WingDetail12_L 1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -986,7 +987,7 @@ GameObject:
   - component: {fileID: 402302}
   m_Layer: 0
   m_Name: Wing2_L 1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1083,7 +1084,7 @@ GameObject:
   - component: {fileID: 494018}
   m_Layer: 0
   m_Name: UpperLeg_L1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1146,7 +1147,7 @@ GameObject:
   - component: {fileID: 474488}
   m_Layer: 0
   m_Name: WingClaw3_L 1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1210,7 +1211,7 @@ GameObject:
   - component: {fileID: 408638}
   m_Layer: 0
   m_Name: WingClaw2_L
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1242,7 +1243,7 @@ GameObject:
   - component: {fileID: 423030}
   m_Layer: 0
   m_Name: Root
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1530,7 +1531,7 @@ GameObject:
   - component: {fileID: 483612}
   m_Layer: 0
   m_Name: Chest
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1628,7 +1629,7 @@ GameObject:
   - component: {fileID: 449822}
   m_Layer: 0
   m_Name: Wing2_L
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1661,7 +1662,7 @@ GameObject:
   - component: {fileID: 404696}
   m_Layer: 0
   m_Name: Neck3
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1693,7 +1694,7 @@ GameObject:
   - component: {fileID: 448938}
   m_Layer: 0
   m_Name: Wing3_L
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1854,7 +1855,7 @@ GameObject:
   - component: {fileID: 430172}
   m_Layer: 0
   m_Name: WingClaw1_L
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1950,7 +1951,7 @@ GameObject:
   - component: {fileID: 448732}
   m_Layer: 0
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1987,7 +1988,7 @@ GameObject:
   - component: {fileID: 414426}
   m_Layer: 0
   m_Name: Tail1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2019,7 +2020,7 @@ GameObject:
   - component: {fileID: 480056}
   m_Layer: 0
   m_Name: UpperHead1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2114,7 +2115,7 @@ GameObject:
   - component: {fileID: 497694}
   m_Layer: 0
   m_Name: WingClaw1_L 1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2146,7 +2147,7 @@ GameObject:
   - component: {fileID: 449280}
   m_Layer: 0
   m_Name: UpperArm_L
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2210,7 +2211,7 @@ GameObject:
   - component: {fileID: 423672}
   m_Layer: 0
   m_Name: Wing1_L
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2274,7 +2275,7 @@ GameObject:
   - component: {fileID: 427310}
   m_Layer: 0
   m_Name: UpperLeg_L
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2306,7 +2307,7 @@ GameObject:
   - component: {fileID: 417864}
   m_Layer: 0
   m_Name: Spine2
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2340,7 +2341,7 @@ GameObject:
   - component: {fileID: 461370}
   m_Layer: 0
   m_Name: Neck4
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2374,7 +2375,7 @@ GameObject:
   - component: {fileID: 6425339303279862754}
   m_Layer: 0
   m_Name: DragonMesh
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2555,7 +2556,7 @@ GameObject:
   - component: {fileID: 468834}
   m_Layer: 0
   m_Name: WingDetail12_L
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2619,7 +2620,7 @@ GameObject:
   - component: {fileID: 445504}
   m_Layer: 0
   m_Name: UpperArm_L1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2873,7 +2874,7 @@ GameObject:
   - component: {fileID: 498416}
   m_Layer: 0
   m_Name: Wing4_L 1
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2974,7 +2975,7 @@ GameObject:
   - component: {fileID: 5560752409827203570}
   m_Layer: 0
   m_Name: ClawCollider
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3086,7 +3087,7 @@ GameObject:
   - component: {fileID: 2134255021998128560}
   m_Layer: 0
   m_Name: WingCollider2
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3198,7 +3199,7 @@ GameObject:
   - component: {fileID: 867731695985824861}
   m_Layer: 0
   m_Name: Jaw Collider
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3306,6 +3307,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FireBreath
+      objectReference: {fileID: 0}
+    - target: {fileID: 830785749058177558, guid: d4731492b62a17c428bbfd94273403e7,
+        type: 3}
+      propertyPath: m_TagString
+      value: Monster
       objectReference: {fileID: 0}
     - target: {fileID: 2120505771444066266, guid: d4731492b62a17c428bbfd94273403e7,
         type: 3}
@@ -3478,6 +3484,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireBreath (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 830785749058177558, guid: d4731492b62a17c428bbfd94273403e7,
+        type: 3}
+      propertyPath: m_TagString
+      value: Monster
+      objectReference: {fileID: 0}
     - target: {fileID: 2120505771444066266, guid: d4731492b62a17c428bbfd94273403e7,
         type: 3}
       propertyPath: looping
@@ -3648,6 +3659,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FireBreath (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 830785749058177558, guid: d4731492b62a17c428bbfd94273403e7,
+        type: 3}
+      propertyPath: m_TagString
+      value: Monster
       objectReference: {fileID: 0}
     - target: {fileID: 2120505771444066266, guid: d4731492b62a17c428bbfd94273403e7,
         type: 3}

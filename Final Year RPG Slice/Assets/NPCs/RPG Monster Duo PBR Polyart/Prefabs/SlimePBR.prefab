@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4990016090922594}
   m_Layer: 0
   m_Name: EyeBall
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 4418890088391708}
   m_Layer: 0
   m_Name: Spine01
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 4122232275892010}
   m_Layer: 0
   m_Name: BottomEyeCover
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 4205655170070120}
   m_Layer: 0
   m_Name: Crown
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 4016204425067502}
   m_Layer: 0
   m_Name: UpperEyeCover
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 4365350966287532}
   m_Layer: 0
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 4409866491529092}
   m_Layer: 0
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 4041259413140590}
   m_Layer: 0
   m_Name: Side_R
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 8728368433031222989}
   m_Layer: 0
   m_Name: Slime
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -375,7 +375,7 @@ GameObject:
   - component: {fileID: 4408566645186202}
   m_Layer: 0
   m_Name: EyeCTRL
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 6256330502543472957}
   m_Layer: 0
   m_Name: SlimePBR
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -467,10 +467,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AIState: 0
+  monsterType: 0
   distance: 0
   body: {fileID: 0}
+  _wing1Collider: {fileID: 0}
+  _wing2Collider: {fileID: 0}
+  _JawCollider: {fileID: 0}
+  detectRange: 0
+  chaseRange: 0
   speed: 2
   range: 1.5
+  specialTimer1: 20
+  specialTimer2: 30
+  monsterHP: 5
+  _specialAttackScript: {fileID: 0}
 --- !u!54 &6256330502543472957
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -498,7 +508,7 @@ GameObject:
   - component: {fileID: 4537929633066036}
   m_Layer: 0
   m_Name: Side_L
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
