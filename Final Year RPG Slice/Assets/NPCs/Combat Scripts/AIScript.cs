@@ -10,6 +10,9 @@ public class AIScript : MonoBehaviour
     public type monsterType = type.minion;
     public float distance;
 
+    public Transform spawnPoint;
+    [SerializeField] private float _respawnTime = 5f;
+
     private GameObject _player;
     private int _playerHP = 200;
     private bool _invunerablePlayer = false;
@@ -22,18 +25,26 @@ public class AIScript : MonoBehaviour
     public float detectRange, chaseRange;
     
 
-    public float speed = 3;
+    public float speed;
+    public float turnSpeed;
     private bool _canAttack = true;
     private bool _patrolling = true;
     public float range;
+    public float attackDelay;
 
     private bool _animationLocked = false;
 
-    public float specialTimer1 = 20, specialTimer2 = 30;
+    public float specialTimer1, specialTimer2;
 
     public int monsterHP;
+    private int _monHP;
+
+    private bool _respawning = false;
 
     [SerializeField] private PlayFire _specialAttackScript;
+    [SerializeField] private Difficulty_Manager manager;
+
+
 
     private void Start()
     {
@@ -83,7 +94,30 @@ public class AIScript : MonoBehaviour
             }
         }
         
+        if (manager == null)
+        {
+            manager = GameObject.FindGameObjectWithTag("Difficulty_Manager").GetComponent<Difficulty_Manager>();
+        }
 
+        _monHP = monsterHP;
+        
+        GetStats();
+        
+    }
+
+    public void GetStats()
+    {
+        monsterHP =  (int)(monsterHP * manager.hitPointsModifier);
+        turnSpeed = turnSpeed * manager.turnRateModifier;
+        attackDelay = attackDelay * manager.recoveryTime;
+        detectRange = detectRange * manager.aggressionRange;
+        Debug.Log(detectRange);
+        chaseRange = chaseRange * manager.aggressionRange;
+        Debug.Log(chaseRange);
+        specialTimer1 = manager.specialAttackCooldown;
+        specialTimer2 = manager.specialAttackCooldown + 10f;
+
+        Debug.Log("Updated Stats");
     }
     // Update is called once per frame
     void Update()
@@ -92,16 +126,28 @@ public class AIScript : MonoBehaviour
 
         if (monsterHP <= 0)
         {
+            
             _animationLocked = true;
             AIState = state.dead;
+            if (!_respawning)
+            {
+                OnDeath();
+            }
+            
+            _respawning = true;
         }
 
         distance = Vector3.Distance(_player.transform.position, this.transform.position);
         if (_playerHP <= 0)
         {
-            distance = 2000;
+             distance = 2000;
         }
 
+        if (manager.updateReady)
+        {
+            manager.updateReady = false;
+            GetStats();
+        }
 
 
         if (!_animationLocked)
@@ -233,13 +279,13 @@ public class AIScript : MonoBehaviour
 
             case state.look:
                 relativePos.y = 0;
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 0.1f);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, turnSpeed);
                 animator.SetFloat("Speed", 0);
                 break;
 
             case state.chase:
                 relativePos.y = 0;
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 0.1f);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, turnSpeed);
                 if (transform.rotation == rotation)
                 {
                     Vector3 newPos = Vector3.MoveTowards(transform.position, _player.transform.position, step);
@@ -254,9 +300,10 @@ public class AIScript : MonoBehaviour
             case state.attack:
 
                 animator.SetBool("Moving", false);
+                animator.SetBool("Idle", false);
                 animator.SetFloat("Speed", 0);
                 relativePos.y = 0;
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 0.1f);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, turnSpeed);
 
                 if (transform.rotation == rotation && !_animationLocked)
                 {
@@ -313,13 +360,6 @@ public class AIScript : MonoBehaviour
         }
     }
 
-    private Vector3 RandomVector(float min, float max)
-    {
-        var x = Random.Range(min, max);
-        var y = 0;
-        var z = Random.Range(min, max);
-        return new Vector3(x, y, z);
-    }
     IEnumerator MinionAttack()
     {
         
@@ -337,13 +377,7 @@ public class AIScript : MonoBehaviour
         _canAttack = true;
     }
 
-    IEnumerator patrol()
-    {
-        body.velocity = RandomVector(-5f, 5f);
-        yield return new WaitForSeconds(2.5f);
-        _patrolling = true;
-        yield return null;
-    }
+    #region MonsterFunctions
 
     void MonsterAttacks()
     {
@@ -400,6 +434,7 @@ public class AIScript : MonoBehaviour
         _canAttack = true;
         _animationLocked = false;
     }
+    #endregion
 
     void BossAttacks()
     {
@@ -424,7 +459,9 @@ public class AIScript : MonoBehaviour
         }
         else
         {
+            animator.SetBool("Idle", false);
             animator.SetBool("Attack1", true);
+            
             StartCoroutine(BossNormalAttack());
         }
     }
@@ -433,11 +470,12 @@ public class AIScript : MonoBehaviour
     {
 
         _JawCollider.SetActive(true);
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
         animator.SetBool("Attack1", false);
         
         yield return new WaitForSeconds(2.0f);
         _JawCollider.SetActive(false);
+        yield return new WaitForSeconds(attackDelay);
         _animationLocked = false;
         _canAttack = true;
     }
@@ -456,6 +494,7 @@ public class AIScript : MonoBehaviour
         _wing1Collider.SetActive(false);
         _wing2Collider.SetActive(false);
 
+        yield return new WaitForSeconds(attackDelay);
         _animationLocked = false;
         _canAttack = true;
     }
@@ -467,7 +506,27 @@ public class AIScript : MonoBehaviour
         yield return new WaitForSeconds(2f);
         animator.SetBool("FlameAttack", false);
         _specialAttackScript.enabled = false;
+        yield return new WaitForSeconds(attackDelay);
         _canAttack = true;
         _animationLocked = false;
+    }
+
+    private void OnDeath()
+    {
+        StartCoroutine(Respawn());
+    }
+
+    IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(_respawnTime);
+
+        if (monsterType == type.boss || monsterType == type.monster)
+        {
+            manager.significantEnemyDeaths++;
+        }
+        monsterHP = _monHP;
+        transform.position = spawnPoint.position;
+        _respawning = false;
+        GetStats();
     }
 }

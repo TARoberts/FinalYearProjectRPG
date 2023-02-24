@@ -24,6 +24,10 @@ public class InputSytem : MonoBehaviour
 
     private float attackTimer = 0;
 
+    private bool _canPlaySound = true;
+
+    private Audio_Player sound;
+
     private void Awake()
     {
         
@@ -49,7 +53,8 @@ public class InputSytem : MonoBehaviour
         dogKnightControls.Player.Defend.canceled += Defend_cancelled;
 
         dogKnightControls.Player.Movement.Enable();
-        
+
+        sound = GetComponent<Audio_Player>();
 
         if (!inEditor)
         {
@@ -141,14 +146,16 @@ public class InputSytem : MonoBehaviour
     public void Attack(InputAction.CallbackContext context)
     {
         attackTimer = .8f;
-        if ((((dogAnimator.GetInteger("AttackState") == 0)) || (attackLocked && (dogAnimator.GetInteger("AttackState") == 2))) && !inMenu)
+        if ((((dogAnimator.GetInteger("AttackState") == 0)) || (attackLocked && (dogAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack02")))) && !inMenu)
         {
+            
             attackLocked = true;
             Debug.Log("Attackingway");
             dogAnimator.SetInteger("AttackState", 1);
         }
-        else if (dogAnimator.GetInteger("AttackState") == 1 && !inMenu)
+        else if (dogAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack01") && !inMenu)
         {
+            AttackSound();
             Debug.Log("Attackingway");
             dogAnimator.SetInteger("AttackState", 2);
         }
@@ -164,14 +171,20 @@ public class InputSytem : MonoBehaviour
         dogAnimator.SetBool("Defending", false);
     }
 
-
-
-    IEnumerator AttackLock()
+    private void AttackSound()
     {
-        yield return new WaitForSeconds(1.0f);
-        attackLocked = false;
-        dogAnimator.SetInteger("AttackState", 0);
-        _attackCollider.SetActive(false);
+        if (sound != null && _canPlaySound)
+        {
+            sound.PlaySound();
+            _canPlaySound = false;
+            StartCoroutine(WaitToPlaySound());
+        }
+    }
+
+    IEnumerator WaitToPlaySound()
+    {
+        yield return new WaitForSeconds(.8f);
+        _canPlaySound = true;
     }
 }
 

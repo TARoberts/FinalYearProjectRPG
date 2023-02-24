@@ -5,9 +5,11 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     public int playerHealthValue = 20;
+    private int _startingHP;
     private bool _dead = false;
     [SerializeField] private Transform _respawnPoint;
     [SerializeField] private Animator _playerAnimator;
+    [SerializeField] private Difficulty_Manager manager;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +23,12 @@ public class PlayerStats : MonoBehaviour
         {
             _playerAnimator = gameObject.GetComponent<Animator>();
         }
+
+        if (manager == null)
+        {
+            manager = GameObject.FindGameObjectWithTag("Difficulty_Manager").GetComponent<Difficulty_Manager>();
+        }
+        _startingHP = playerHealthValue;
     }
 
     // Update is called once per frame
@@ -29,6 +37,7 @@ public class PlayerStats : MonoBehaviour
         if (playerHealthValue <= 0 && !_dead)
         {
             _dead = true;
+            manager.playerDeaths += 1;
             _playerAnimator.SetBool("Dead", true);
             StartCoroutine(DieAndRespawn());
         }
@@ -43,6 +52,6 @@ public class PlayerStats : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         _dead = false;
         _playerAnimator.SetBool("Dead", false);
-        playerHealthValue = 20;
+        playerHealthValue = _startingHP;
     }
 }
