@@ -29,6 +29,8 @@ public class PlayerStats : MonoBehaviour
             manager = GameObject.FindGameObjectWithTag("Difficulty_Manager").GetComponent<Difficulty_Manager>();
         }
         _startingHP = playerHealthValue;
+
+        GetComponent<CharacterController>().detectCollisions = false;
     }
 
     // Update is called once per frame

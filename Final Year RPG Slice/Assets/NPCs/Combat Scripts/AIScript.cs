@@ -303,7 +303,12 @@ public class AIScript : MonoBehaviour
                 animator.SetBool("Idle", false);
                 animator.SetFloat("Speed", 0);
                 relativePos.y = 0;
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, turnSpeed);
+
+                if (!_animationLocked)
+                {
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, turnSpeed);
+                }
+                
 
                 if (transform.rotation == rotation && !_animationLocked)
                 {
@@ -524,6 +529,9 @@ public class AIScript : MonoBehaviour
         {
             manager.significantEnemyDeaths++;
         }
+        animator.SetBool("Dead", false);
+        
+        _animationLocked = false;
         monsterHP = _monHP;
         transform.position = spawnPoint.position;
         _respawning = false;
