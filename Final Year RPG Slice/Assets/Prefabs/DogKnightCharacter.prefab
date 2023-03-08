@@ -2326,7 +2326,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   floorDistance: 0.18
-  dogController: {fileID: 0}
+  dogController: {fileID: 5906234631790549535}
   _attackCollider: {fileID: 8704249461382312027}
 --- !u!95 &5573273033781195641
 Animator:

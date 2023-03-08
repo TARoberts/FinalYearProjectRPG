@@ -10,6 +10,7 @@ public class InputSytem : MonoBehaviour
 
     private bool onFloor, attackLocked;
 
+    public bool defending = false;
     [SerializeField] private Transform checkSource, playerCameraPosition;
     public LayerMask groundMask;
     public float floorDistance;
@@ -27,6 +28,8 @@ public class InputSytem : MonoBehaviour
     private bool _canPlaySound = true;
 
     private Audio_Player sound;
+
+    private bool _canMove = true;
 
     private void Awake()
     {
@@ -64,7 +67,23 @@ public class InputSytem : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (dogAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack01") ||
+            dogAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack02"))
+        {
+            _canMove = false;
+        }
 
+        else if (dogAnimator.GetCurrentAnimatorStateInfo(0).IsName("Defend"))
+        {
+            _canMove = false;
+            defending = true;
+        }
+
+        else
+        {
+            defending = false;
+            _canMove = true;
+        }
         if (inMenu && dogKnightControls.Player.enabled)
         {
             dogKnightControls.Player.Disable();
@@ -99,25 +118,26 @@ public class InputSytem : MonoBehaviour
 
         Vector3 move = (new Vector3(inputVector.x, 0, inputVector.y));
 
-
-        float mag = move.magnitude;
-        //move.Normalize();
-
-        move = Quaternion.AngleAxis(playerCameraPosition.rotation.eulerAngles.y, Vector3.up) * move;
-
-        dogController.Move(move * Time.deltaTime * localSpeed);
-
-        dogAnimator.SetFloat("Movement", mag);
-
-        if (move.magnitude > 0)
+        if(_canMove)
         {
-            Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
-            dogController.transform.forward = move;
-        }
-     
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        dogController.Move(playerVelocity * Time.deltaTime);
+            float mag = move.magnitude;
+            //move.Normalize();
 
+            move = Quaternion.AngleAxis(playerCameraPosition.rotation.eulerAngles.y, Vector3.up) * move;
+
+            dogController.Move(move * Time.deltaTime * localSpeed);
+
+            dogAnimator.SetFloat("Movement", mag);
+
+            if (move.magnitude > 0)
+            {
+                Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
+                dogController.transform.forward = move;
+            }
+
+            playerVelocity.y += gravityValue * Time.deltaTime;
+            dogController.Move(playerVelocity * Time.deltaTime);
+        }
         if (attackTimer > 0f)
         {
             attackTimer -= Time.deltaTime;
@@ -148,7 +168,7 @@ public class InputSytem : MonoBehaviour
         attackTimer = .8f;
         if ((((dogAnimator.GetInteger("AttackState") == 0)) || (attackLocked && (dogAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack02")))) && !inMenu)
         {
-            
+            AttackSound();
             attackLocked = true;
             Debug.Log("Attackingway");
             dogAnimator.SetInteger("AttackState", 1);
@@ -164,6 +184,7 @@ public class InputSytem : MonoBehaviour
     public void Defend(InputAction.CallbackContext context)
     {
         dogAnimator.SetBool("Defending", true);
+        defending = true;
     }
 
     public void Defend_cancelled(InputAction.CallbackContext context)

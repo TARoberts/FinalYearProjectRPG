@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 771513830690418927}
   - component: {fileID: 8539707981475626226}
   m_Layer: 0
-  m_Name: Red
+  m_Name: Boss Demo Monster
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

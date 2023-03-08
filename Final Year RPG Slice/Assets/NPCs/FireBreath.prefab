@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6219447688523717741}
   - component: {fileID: 2120505771444066266}
   - component: {fileID: 6716372694681428614}
+  - component: {fileID: 1582706293574870343}
   m_Layer: 0
   m_Name: FireBreath
   m_TagString: Untagged
@@ -662,7 +663,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 15
+    angle: 30
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 0.5
@@ -3612,9 +3613,9 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 4
-    type: 0
+    type: 1
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0
@@ -4812,3 +4813,17 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &1582706293574870343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830785749058177558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26397cf4f7706ee4aae8ad84f9f21e22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  part: {fileID: 2120505771444066266}
+  _player: {fileID: 0}

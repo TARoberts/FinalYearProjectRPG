@@ -10,6 +10,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private Transform _respawnPoint;
     [SerializeField] private Animator _playerAnimator;
     [SerializeField] private Difficulty_Manager manager;
+    [SerializeField] private float _damageTimer = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +43,11 @@ public class PlayerStats : MonoBehaviour
             manager.playerDeaths += 1;
             _playerAnimator.SetBool("Dead", true);
             StartCoroutine(DieAndRespawn());
+        }
+
+        if (_damageTimer > 0)
+        {
+            _damageTimer -= Time.deltaTime;
         }
     }
 

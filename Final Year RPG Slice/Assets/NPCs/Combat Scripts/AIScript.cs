@@ -111,12 +111,9 @@ public class AIScript : MonoBehaviour
         turnSpeed = turnSpeed * manager.turnRateModifier;
         attackDelay = attackDelay * manager.recoveryTime;
         detectRange = detectRange * manager.aggressionRange;
-        Debug.Log(detectRange);
         chaseRange = chaseRange * manager.aggressionRange;
-        Debug.Log(chaseRange);
         specialTimer1 = manager.specialAttackCooldown;
         specialTimer2 = manager.specialAttackCooldown + 10f;
-
         Debug.Log("Updated Stats");
     }
     // Update is called once per frame
@@ -138,6 +135,7 @@ public class AIScript : MonoBehaviour
         }
 
         distance = Vector3.Distance(_player.transform.position, this.transform.position);
+        _invunerablePlayer = _player.GetComponent<InputSytem>().defending;
         if (_playerHP <= 0)
         {
              distance = 2000;
@@ -478,7 +476,7 @@ public class AIScript : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         animator.SetBool("Attack1", false);
         
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
         _JawCollider.SetActive(false);
         yield return new WaitForSeconds(attackDelay);
         _animationLocked = false;
@@ -495,7 +493,7 @@ public class AIScript : MonoBehaviour
 
         animator.SetBool("Attack2", false);
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
         _wing1Collider.SetActive(false);
         _wing2Collider.SetActive(false);
 

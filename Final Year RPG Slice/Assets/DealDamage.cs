@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DealDamage : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class DealDamage : MonoBehaviour
     {
         if (other.gameObject == _player)
         {
-            if(_playerStats.playerHealthValue > 0)
+            if(_playerStats.playerHealthValue > 0 && !_player.GetComponent<InputSytem>().defending)
             {
                 float damage = 5 * _self.attackDamageModifier;
                 int roundDamage = (int)damage;
