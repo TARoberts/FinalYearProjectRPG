@@ -33,7 +33,14 @@ public class InputSytem : MonoBehaviour
 
     private void Awake()
     {
-        
+        if (Application.isEditor)
+        {
+            inEditor = true;
+        }
+        else
+        {
+            inEditor = false;
+        }
         dogController = GetComponent<CharacterController>();
         dogAnimator = GetComponent<Animator>();
         if (_attackCollider == null)
@@ -56,6 +63,9 @@ public class InputSytem : MonoBehaviour
         dogKnightControls.Player.Defend.canceled += Defend_cancelled;
 
         dogKnightControls.Player.Movement.Enable();
+
+        dogKnightControls.Player.Quit.Enable();
+        dogKnightControls.Player.Quit.performed += Quit;
 
         sound = GetComponent<Audio_Player>();
 
@@ -190,6 +200,15 @@ public class InputSytem : MonoBehaviour
     public void Defend_cancelled(InputAction.CallbackContext context)
     {
         dogAnimator.SetBool("Defending", false);
+    }
+
+    public void Quit(InputAction.CallbackContext context)
+    {
+        if (!inEditor)
+        {
+            Application.Quit();
+        }
+        Debug.Log("Quit");
     }
 
     private void AttackSound()

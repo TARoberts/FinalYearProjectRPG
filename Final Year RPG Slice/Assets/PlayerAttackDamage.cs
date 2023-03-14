@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAttackDamage : MonoBehaviour
 {
-    public int damage = 5;
+    public int damage;
 
     [SerializeField] private GameObject _manager;
     private Difficulty_Manager _self;

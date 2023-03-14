@@ -21,6 +21,7 @@ public class AIScript : MonoBehaviour
     private Animator animator;
     [SerializeField] private GameObject _wing1Collider, _wing2Collider;
     [SerializeField] private GameObject _JawCollider;
+    [SerializeField] private GameObject _breathArea;
 
     public float detectRange, chaseRange;
     
@@ -506,7 +507,9 @@ public class AIScript : MonoBehaviour
     {
         animator.SetBool("FlameAttack", true);
         _specialAttackScript.enabled = true;
+        _breathArea.SetActive(true);
         yield return new WaitForSeconds(2f);
+        _breathArea.SetActive(false);
         animator.SetBool("FlameAttack", false);
         _specialAttackScript.enabled = false;
         yield return new WaitForSeconds(attackDelay);

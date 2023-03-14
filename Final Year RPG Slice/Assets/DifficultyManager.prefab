@@ -66,7 +66,7 @@ MonoBehaviour:
   incomingDamageModifer: 1
   aggressionRange: 1
   specialAttackCooldown: 20
-  recoveryTime: 2
+  recoveryTime: 1
   hitPointsModifier: 1
   movesetIDNum: 1
   intensityMultiplier: 1

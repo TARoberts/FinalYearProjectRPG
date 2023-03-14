@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Quit",
+                    "type": "Button",
+                    "id": "fd43e139-125f-4732-9093-a139877ff4a4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -234,6 +243,28 @@
                     "processors": "StickDeadzone",
                     "groups": "Gamepad",
                     "action": "Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fa6ee36b-e894-4fcd-a7a6-90c0fb7a0ae7",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "Hold(duration=3)",
+                    "processors": "",
+                    "groups": "Keyboard & Mouse",
+                    "action": "Quit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2e4daac6-cfc1-45a5-aef8-5ddcd2a7a3b7",
+                    "path": "<Gamepad>/start",
+                    "interactions": "Hold(duration=3)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

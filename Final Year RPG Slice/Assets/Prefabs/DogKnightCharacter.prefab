@@ -2320,6 +2320,7 @@ MonoBehaviour:
   moveSpeed: 5
   inEditor: 1
   inMenu: 0
+  defending: 0
   checkSource: {fileID: 5906234630413630382}
   playerCameraPosition: {fileID: 0}
   groundMask:
@@ -2364,6 +2365,7 @@ MonoBehaviour:
   _respawnPoint: {fileID: 0}
   _playerAnimator: {fileID: 5573273033781195641}
   manager: {fileID: 0}
+  _damageTimer: 0
 --- !u!114 &3642947581919336667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2833,7 +2835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed31f0c8767c40048909f9f56b236908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  damage: 4
   _manager: {fileID: 0}
 --- !u!1 &8711936982608916089
 GameObject:
