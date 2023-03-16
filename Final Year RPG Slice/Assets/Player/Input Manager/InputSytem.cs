@@ -36,9 +36,12 @@ public class InputSytem : MonoBehaviour
         if (Application.isEditor)
         {
             inEditor = true;
+            Cursor.visible = false;
         }
         else
         {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = false;
             inEditor = false;
         }
         dogController = GetComponent<CharacterController>();
@@ -160,17 +163,17 @@ public class InputSytem : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
-        onFloor = Physics.CheckSphere(checkSource.position, floorDistance, groundMask);
-        Debug.Log(onFloor);
-        if (onFloor)
-            {
-            Debug.Log("Jumpingway" + context.phase);
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -1.0f * gravityValue);
-            }
-        else
-            {
-                Debug.Log("Not grounded");
-            }
+        //onFloor = Physics.CheckSphere(checkSource.position, floorDistance, groundMask);
+        //Debug.Log(onFloor);
+        //if (onFloor)
+        //    {
+        //    Debug.Log("Jumpingway" + context.phase);
+        //    playerVelocity.y += Mathf.Sqrt(jumpHeight * -1.0f * gravityValue);
+        //    }
+        //else
+        //    {
+        //        Debug.Log("Not grounded");
+        //    }
     }
 
     public void Attack(InputAction.CallbackContext context)

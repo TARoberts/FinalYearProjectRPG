@@ -11,13 +11,13 @@ public class Difficulty_Manager : MonoBehaviour
     private float _timeAlive = 0f;
     public float playerDeaths = 0f;
     public float significantEnemyDeaths = 0f;
-    private float _killThreshold = 2f;
-    private float _deaththreshold = 3f;
+    private float _killThreshold = 0f;
+    private float _deaththreshold = 0f;
 
     //the variables controlled by the system
 
     public float turnRateModifier = 1f;
-    private float _maxTurnRateModifier = 5f;
+    private float _maxTurnRateModifier = 2f;
     private float _minTurnRateModifier = 0.5f;
 
     public float attackDamageModifier = 1.0f;
@@ -69,14 +69,15 @@ public class Difficulty_Manager : MonoBehaviour
 
         if (significantEnemyDeaths > _killThreshold)
         {
-            RecalcuateStatsUp();
+            significantEnemyDeaths = 0;
+            RecalcuateStatsUp();           
         }
     }
 
     private void Timer()
     {
 
-        _timeAlive += Time.deltaTime;
+        //_timeAlive += Time.deltaTime;
 
     }
 
@@ -124,7 +125,7 @@ public class Difficulty_Manager : MonoBehaviour
     {
         if (turnRateModifier < _maxTurnRateModifier)
         {
-            turnRateModifier += 0.2f;
+            turnRateModifier += 0.1f;
         }
 
         if (attackDamageModifier < _maxAttackDamageModifier)

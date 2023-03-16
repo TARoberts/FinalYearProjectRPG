@@ -7,7 +7,7 @@ public class PlayerStats : MonoBehaviour
     public int playerHealthValue = 20;
     private int _startingHP;
     private bool _dead = false;
-    [SerializeField] private Transform _respawnPoint;
+    public Transform _respawnPoint;
     [SerializeField] private Animator _playerAnimator;
     [SerializeField] private Difficulty_Manager manager;
     [SerializeField] private float _damageTimer = 0f;

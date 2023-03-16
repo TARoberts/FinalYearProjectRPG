@@ -27,18 +27,25 @@ public class AIScript : MonoBehaviour
     
 
     public float speed;
+    private float _BaseSpeed;
     public float turnSpeed;
+    private float _baseTurnSpeed;
     private bool _canAttack = true;
     private bool _patrolling = true;
     public float range;
+    private float _baseDetectRange, _baseChaseRange;
     public float attackDelay;
+    private float _baseAttackDelay;
 
     private bool _animationLocked = false;
 
     public float specialTimer1, specialTimer2;
+    private float _baseSpecialTimer1, _baseSpecialTimer2;
 
     public int monsterHP;
-    private int _monHP;
+    private int _BaseHP;
+
+
 
     private bool _respawning = false;
 
@@ -100,19 +107,26 @@ public class AIScript : MonoBehaviour
             manager = GameObject.FindGameObjectWithTag("Difficulty_Manager").GetComponent<Difficulty_Manager>();
         }
 
-        _monHP = monsterHP;
-        
+        _BaseHP = monsterHP;
+        _baseAttackDelay = attackDelay;
+        _baseChaseRange = chaseRange;
+        _baseDetectRange = detectRange;
+        _baseSpecialTimer1 = specialTimer1;
+        _baseSpecialTimer2 = specialTimer2;
+        _BaseSpeed = speed;
+        _baseTurnSpeed = turnSpeed;
+
         GetStats();
         
     }
 
     public void GetStats()
     {
-        monsterHP =  (int)(monsterHP * manager.hitPointsModifier);
-        turnSpeed = turnSpeed * manager.turnRateModifier;
-        attackDelay = attackDelay * manager.recoveryTime;
-        detectRange = detectRange * manager.aggressionRange;
-        chaseRange = chaseRange * manager.aggressionRange;
+        monsterHP =  (int)(_BaseHP * manager.hitPointsModifier);
+        turnSpeed = _BaseSpeed * manager.turnRateModifier;
+        attackDelay = _baseAttackDelay * manager.recoveryTime;
+        detectRange = _baseDetectRange * manager.aggressionRange;
+        chaseRange = _baseChaseRange * manager.aggressionRange;
         specialTimer1 = manager.specialAttackCooldown;
         specialTimer2 = manager.specialAttackCooldown + 10f;
         Debug.Log("Updated Stats");
@@ -139,7 +153,10 @@ public class AIScript : MonoBehaviour
         _invunerablePlayer = _player.GetComponent<InputSytem>().defending;
         if (_playerHP <= 0)
         {
-             distance = 2000;
+            monsterHP = _BaseHP;
+            this.transform.position = spawnPoint.position;
+            distance = 2000;
+            
         }
 
         if (manager.updateReady)
@@ -531,9 +548,12 @@ public class AIScript : MonoBehaviour
             manager.significantEnemyDeaths++;
         }
         animator.SetBool("Dead", false);
-        
+        _player.GetComponent<CharacterController>().enabled = false;
+        _player.transform.position = _player.GetComponent<PlayerStats>()._respawnPoint.position;
+        _player.GetComponent<CharacterController>().enabled = true;
+
         _animationLocked = false;
-        monsterHP = _monHP;
+        monsterHP = _BaseHP;
         transform.position = spawnPoint.position;
         _respawning = false;
         GetStats();

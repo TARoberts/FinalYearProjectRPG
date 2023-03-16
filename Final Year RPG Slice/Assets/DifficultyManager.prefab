@@ -59,7 +59,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updateReady: 0
   hitsTaken: 0
-  playerDeaths: 3
+  playerDeaths: 0
   significantEnemyDeaths: 0
   turnRateModifier: 1
   attackDamageModifier: 1

@@ -19,8 +19,6 @@ public class PlayerAttackDamage : MonoBehaviour
         _self = _manager.GetComponent<Difficulty_Manager>();
     }
 
-    // Update is called once per frame
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Monster")
@@ -37,11 +35,11 @@ public class PlayerAttackDamage : MonoBehaviour
                 float dam = damage * _self.incomingDamageModifer;
                 int realDamage = (int) dam;
                 foeHP.monsterHP -= realDamage;
-                Debug.Log(realDamage);
+                
             }
             else
             {
-                Debug.Log("Fuck");
+                
             }
         }
     }
