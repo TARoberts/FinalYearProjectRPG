@@ -6,11 +6,10 @@ public class Difficulty_Manager : MonoBehaviour
 {
     private bool _managerActive = true;
     public bool updateReady = false;
-    //records the number of times a player is hit by enemies across a given time period in seconds
-    public float hitsTaken = 0;
-    private float _timeAlive = 0f;
     public float playerDeaths = 0f;
+    //each time a notable enemy has been defeated
     public float significantEnemyDeaths = 0f;
+    //these were set to 0 for the demo to reduce the required test duration
     private float _killThreshold = 0f;
     private float _deaththreshold = 0f;
 
@@ -44,23 +43,9 @@ public class Difficulty_Manager : MonoBehaviour
     private float _maxHitPointsModifier = 1.5f;
     private float _minHitPointsModifier = 0.5f;
 
-    public int movesetIDNum = 1;
-
-
-    //a multiplier applied to all values based on current expected difficulty
-    public float intensityMultiplier = 1f;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
-        Timer();
         if (playerDeaths > _deaththreshold)
         {
             playerDeaths = 0;
@@ -74,15 +59,9 @@ public class Difficulty_Manager : MonoBehaviour
         }
     }
 
-    private void Timer()
-    {
-
-        //_timeAlive += Time.deltaTime;
-
-    }
-
     public void RecalculateStatsDown()
     {
+        //adjusts the encounter to be easier
         if (turnRateModifier > _minTurnRateModifier)
         {
             turnRateModifier -= 0.2f;
@@ -123,9 +102,10 @@ public class Difficulty_Manager : MonoBehaviour
 
     public void RecalcuateStatsUp()
     {
+        //adjusts the encounter to be harder 
         if (turnRateModifier < _maxTurnRateModifier)
         {
-            turnRateModifier += 0.1f;
+            turnRateModifier += 0.2f;
         }
 
         if (attackDamageModifier < _maxAttackDamageModifier)

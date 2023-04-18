@@ -122,6 +122,7 @@ public class AIScript : MonoBehaviour
 
     public void GetStats()
     {
+        //called on death or kill to update the stats of the enemy
         monsterHP =  (int)(_BaseHP * manager.hitPointsModifier);
         turnSpeed = _BaseSpeed * manager.turnRateModifier;
         attackDelay = _baseAttackDelay * manager.recoveryTime;
@@ -165,9 +166,10 @@ public class AIScript : MonoBehaviour
             GetStats();
         }
 
-
+        //prevents the enemy doing things when they shouldnt
         if (!_animationLocked)
         {
+            //basic finite state machine
             if (distance > detectRange)
             {
                 AIState = state.idle;
@@ -285,7 +287,7 @@ public class AIScript : MonoBehaviour
         Vector3 relativePos = _player.transform.position - transform.position;
         Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
         float step = speed * Time.deltaTime;
-
+        //better finite state machine
         switch (AIState)
         {
             case state.idle:
@@ -380,7 +382,7 @@ public class AIScript : MonoBehaviour
             }
         }
     }
-
+    //handles the attack of "minion" class enemies
     IEnumerator MinionAttack()
     {
         
@@ -397,7 +399,7 @@ public class AIScript : MonoBehaviour
         
         _canAttack = true;
     }
-
+    //handles behaviour of "monster" tier enemies
     #region MonsterFunctions
 
     void MonsterAttacks()
@@ -457,6 +459,7 @@ public class AIScript : MonoBehaviour
     }
     #endregion
 
+    //manages the attacks of the enemy if it is a boss level enemy
     void BossAttacks()
     {
         _animationLocked = true;
